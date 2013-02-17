@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<!-- logback.xml debugģʽ <configuration debug="true"> -->
+<configuration >
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+    	<!--<pattern>[%date][%level][%thread][%logger][%file:%line] %msg%n</pattern>-->
+      <pattern>[%date][%-5level][%thread][%file:%method:%line] %msg%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+  </appender>
+  <appender name="fileDefault" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+    <!--for further documentation-->
+    <!-- Support multiple-JVMs writing to the same log file -->
+    <prudent>true</prudent>
+    <Append>true</Append>
+    <encoder>
+      <pattern>[%d{HH:mm:ss.SSS}][%-5level][%thread][%file:%line] -- %msg%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ALL</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+    	<!-- daily rollover -->
+      <fileNamePattern>${swifts.home}/logs/swifts.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+      <!-- keep 30 days worth of history -->
+      <maxHistory>60</maxHistory>
+	  <!-- write logs each file size : 1G -->
+	  <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		  <MaxFileSize>500MB</MaxFileSize>
+	  </TimeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+  </appender>
+  <logger name="org" level="INFO"/>
+  <logger name="org.quartz" level="INFO"/>
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="com.mchange" level="WARN"/>
+  <logger name="ch.qos.logback" level="WARN"/>
+  <root level="DEBUG">
+	<!--
+    <appender-ref ref="stdout"/>
+	-->
+    <appender-ref ref="fileDefault"/>
+  </root>
+</configuration>

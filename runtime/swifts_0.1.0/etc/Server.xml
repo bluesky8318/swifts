@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Server configuration 
+ -->
+<Server xmlns="http://zeronote.org.cn/swift/configure" port="48085" shutdown="shutdown">
+</Server>
